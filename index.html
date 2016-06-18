@@ -10,17 +10,23 @@
    			<script src="js/dc.js" charset="utf-8"></script>
         </head>
         <body>
+
+        	<div id='brazil-chart'>
+			      <h4> Mapa</h4>
+			</div>
+
         	<div id='age-chart'>
 			      <h4> Número de inscritos por idade</h4>
 			</div>
+
 			<div id='abstention-chart'>
 			      <h4> Abstenções</h4>
 			</div>
 
-
 			<script type="text/javascript">
 				var ageChart = dc.seriesChart('#age-chart');
 				var abstentionChart = dc.lineChart('#abstention-chart');
+				var brChart = dc.geoChoroplethChart("#brazil-chart");
 
 				d3.json("hello.json", function (data) {
 
@@ -51,48 +57,71 @@
   						 return d.sum;
   					});
 
-              		ageChart
-					    .width(600)
-					    .height(480)
-					    .chart(function(c) { return dc.lineChart(c).interpolate('basis'); })
-					    .x(d3.scale.linear().domain([13,80]))
-					    .brushOn(false)
-					    .yAxisLabel("Quantidade de Inscritos")
-					    .xAxisLabel("Idade")
-					    .clipPadding(10)
-					    .elasticY(true)
-					    .dimension(ageYear)
-					    .group(sumAgeGroup)
-					    .mouseZoomable(true)
-					    .seriesAccessor(function(d) {return d.key[0];})
-					    .keyAccessor(function(d) {return d.key[1];})
-					    .valueAccessor(function(d) {return d.value})
-					    .legend(dc.legend().x(500).y(150).itemHeight(13).gap(5).horizontal(0).legendWidth(200).itemWidth(70));
-					  
-					  //ageChart.yAxis().tickFormat(function(d) {return d3.format(',d')(d+299500);});
-					  ageChart.margins().left += 40;
+  					var ufDim = facts.dimension(function(d) {return d.uf; });
+					var sumUfGroup = ufDim.group().reduceSum(function(d) { return d.sum; });
+
+					var projection = d3.geo.mercator()
+						.center([-40,-10])
+						.scale(600)
+						.rotate([-12,0]);
+
+					d3.json("brazil_geo.json", function (error, statesJson) {
+						console.log('map', error);
+			            brChart.width(800)
+			                    .height(900)
+			                    .dimension(ufDim)
+			                    .group(sumUfGroup)
+			                    .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+			                    .colorDomain([0, 3093498])
+			                    .projection(projection)
+			                    .colorCalculator(function (d) { return d ? brChart.colors()(d) : '#ccc'; })
+			                    .overlayGeoJson(statesJson.features, "estados", function (d) {
+			                        return d.properties.sigla;
+			                    });
+
+	              		ageChart
+						    .width(500)
+						    .height(380)
+						    .chart(function(c) { return dc.lineChart(c).interpolate('basis'); })
+						    .x(d3.scale.linear().domain([13,80]))
+						    .brushOn(false)
+						    .yAxisLabel("Quantidade de Inscritos")
+						    .xAxisLabel("Idade")
+						    .clipPadding(10)
+						    .elasticY(true)
+						    .dimension(ageYear)
+						    .group(sumAgeGroup)
+						    .mouseZoomable(true)
+						    .seriesAccessor(function(d) {return d.key[0];})
+						    .keyAccessor(function(d) {return d.key[1];})
+						    .valueAccessor(function(d) {return d.value})
+						    .legend(dc.legend().x(500).y(150).itemHeight(13).gap(5).horizontal(0).legendWidth(200).itemWidth(70));
+						  
+						  //ageChart.yAxis().tickFormat(function(d) {return d3.format(',d')(d+299500);});
+						  ageChart.margins().left += 40;
 
 
-					abstentionChart
-					    .width(600)
-					    .height(480)
-					    .x(d3.time.scale().domain(d3.extent(data, function(d){ return d.ano; })))
-					    //.interpolate('step-before')
-					    .renderArea(true)
-					    .yAxisLabel("Quantidade de Abstenções")
-					    .xAxisLabel("Ano")
-					    .renderDataPoints(true)
-					    .clipPadding(10)
-					    .dimension(yearDim)
-					    .group(sumAbstByYearGroup);
+						abstentionChart
+						    .width(500)
+						    .height(380)
+						    .x(d3.time.scale().domain(d3.extent(data, function(d){ return d.ano; })))
+						    //.interpolate('step-before')
+						    .renderArea(true)
+						    .yAxisLabel("Quantidade de Abstenções")
+						    .xAxisLabel("Ano")
+						    .renderDataPoints(true)
+						    .clipPadding(10)
+						    .dimension(yearDim)
+						    .group(sumAbstByYearGroup);
 
 
-					abstentionChart.xAxis().tickFormat(d3.format("d"));
-					abstentionChart.margins().left += 40;
+						abstentionChart.xAxis().tickFormat(d3.format("d"));
+						abstentionChart.margins().left += 40;
         			
         			dc.renderAll();
+        		});
 
-				});
+			});
 
 			</script>
 
