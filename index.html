@@ -13,6 +13,7 @@
 
         	<div id='brazil-chart'>
 			      <h4> Mapa</h4>
+			       <a class="reset" href="javascript:brChart.filterAll();dc.redrawAll();">Resetar</a>
 			</div>
 
         	<div id='age-chart'>
@@ -23,10 +24,15 @@
 			      <h4> Abstenções</h4>
 			</div>
 
+			<div id='school-chart'>
+			      <h4> Tipo de Escola</h4>
+			</div>
+
 			<script type="text/javascript">
 				var ageChart = dc.seriesChart('#age-chart');
 				var abstentionChart = dc.lineChart('#abstention-chart');
 				var brChart = dc.geoChoroplethChart("#brazil-chart");
+				var schoolChart = dc.barChart("#school-chart");
 
 				d3.json("hello.json", function (data) {
 
@@ -34,11 +40,11 @@
 				        d.idade = +d.idade; 
 				        d.sum = +d.sum;
 				        d.ano = +d.ano;
-
-				        if(d.status_redacao == "F")
-				        	d.abstencao = 1;
-				        else
-				        	d.abstencao = 0;
+				        d.media_cn = +d.media_cn;
+				        d.media_ch = +d.media_ch;
+				        d.media_lc = +d.media_lc;
+				        d.media_mt = +d.media_mt;
+				        d.media_redacao = +d.media_redacao;
 				    });
 
 					var facts = crossfilter(data);
@@ -64,6 +70,9 @@
 						.center([-40,-10])
 						.scale(600)
 						.rotate([-12,0]);
+
+					var schoolDim = facts.dimension(function(d) {return d.tipo_escola;});
+
 
 					d3.json("brazil_geo.json", function (error, statesJson) {
 						console.log('map', error);
@@ -95,10 +104,10 @@
 						    .seriesAccessor(function(d) {return d.key[0];})
 						    .keyAccessor(function(d) {return d.key[1];})
 						    .valueAccessor(function(d) {return d.value})
-						    .legend(dc.legend().x(500).y(150).itemHeight(13).gap(5).horizontal(0).legendWidth(200).itemWidth(70));
+						    .legend(dc.legend().x(400).y(150).itemHeight(13).gap(5).horizontal(0).legendWidth(200).itemWidth(70));
 						  
 						  //ageChart.yAxis().tickFormat(function(d) {return d3.format(',d')(d+299500);});
-						  ageChart.margins().left += 40;
+						ageChart.margins().left += 40;
 
 
 						abstentionChart
