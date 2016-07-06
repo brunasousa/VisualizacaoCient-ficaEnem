@@ -73,6 +73,25 @@
 
 					var schoolDim = facts.dimension(function(d) {return d.tipo_escola;});
 
+					var notasGroup = schoolDim.group().reduce(function(p, v) {
+		                  return p[v.media_cn];
+		              }, function(p, v) {
+		                  return p[v.media_ch];
+		              }, function(p, v) {
+		                  return p[v.media_lc];
+		              }, function(p, v) {
+		                  return p[v.media_mt];
+		              }, function(p, v) {
+		                  return p[v.media_redacao];
+		              });
+
+					function sel_stack(i) {
+			            return function(d) {
+			                return d.value[i];
+			            };
+			        }
+
+
 
 					d3.json("brazil_geo.json", function (error, statesJson) {
 						console.log('map', error);
@@ -126,6 +145,22 @@
 
 						abstentionChart.xAxis().tickFormat(d3.format("d"));
 						abstentionChart.margins().left += 40;
+
+
+			          	schoolChart
+				            .width(500)
+							.height(380)
+				            .x(d3.scale.linear().domain([1,21]))
+				            .margins({left: 50, top: 20, right: 10, bottom: 20})
+				            .brushOn(false)
+				            .clipPadding(10)
+				            .title(function(d) {
+				                return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
+				            })
+				            .yAxisLabel("This is the Y Axis!")
+				            .dimension(schoolDim)
+				            .group(notasGroup, "1", sel_stack('1'))
+				            .renderLabel(true);
         			
         			dc.renderAll();
         		});
