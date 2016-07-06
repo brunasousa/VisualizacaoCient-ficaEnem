@@ -34,17 +34,28 @@
 				var brChart = dc.geoChoroplethChart("#brazil-chart");
 				var schoolChart = dc.barChart("#school-chart");
 
-				d3.json("hello.json", function (data) {
+				d3.json("enem2.json", function (data) {
 
 					data.forEach(function (d) {
-				        d.idade = +d.idade; 
-				        d.sum = +d.sum;
-				        d.ano = +d.ano;
-				        d.media_cn = +d.media_cn;
-				        d.media_ch = +d.media_ch;
-				        d.media_lc = +d.media_lc;
-				        d.media_mt = +d.media_mt;
-				        d.media_redacao = +d.media_redacao;
+				        d.idade = +d.i; 
+				        d.sum = +d.s;
+				        d.ano = +d.a;
+				        d.status_redacao = d.r;
+				        d.uf = d.u;
+				        d.tipo_escola = d.t;
+				      
+				        d.m[1] = + d.m[1];
+				        d.m[2] = + d.m[2];
+				        d.m[3] = + d.m[3];
+				        d.m[4] = + d.m[4];
+				        d.m[5] = + d.m[5];
+
+				       	d.m1 = 1;
+						d.m2 = 2;
+						d.m3 = 3;
+						d.m4 = 4;
+						d.m5 = 5;
+
 				    });
 
 					var facts = crossfilter(data);
@@ -55,8 +66,10 @@
   					var yearDim = facts.dimension(function(d) {return [d.ano]; });
 
   					var sumAbstByYearGroup = yearDim.group().reduceSum(function(d) {
-  						 if(d.status_redacao == "F") return d.sum;
-  						 else return 0; 
+  						 if(d.status_redacao == "F") 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
   					});
 
   					var sumTotalByYearGroup = yearDim.group().reduceSum(function(d) {
@@ -73,18 +86,35 @@
 
 					var schoolDim = facts.dimension(function(d) {return d.tipo_escola;});
 
-					var notasGroup = schoolDim.group().reduce(function(p, v) {
-		                  return p[v.media_cn];
-		              }, function(p, v) {
-		                  return p[v.media_ch];
-		              }, function(p, v) {
-		                  return p[v.media_lc];
-		              }, function(p, v) {
-		                  return p[v.media_mt];
-		              }, function(p, v) {
-		                  return p[v.media_redacao];
-		              });
+					var schoolGroupCount = schoolDim.group();
+					var countAllSchools = schoolGroupCount.reduceCount().all();
+					var countSchoolsByType = {};
 
+					Array.prototype.slice.call(countAllSchools).forEach(function(d) { countSchoolsByType[d.key] = d.value; });
+
+					var notasGroup = schoolDim.group().reduce(function (p, v) {
+						   	p[v.m1] = (p[v.m1] || 0) + (v.m[1]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m2] = (p[v.m2] || 0) + (v.m[2]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m3] = (p[v.m3] || 0) + (v.m[3]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m4] = (p[v.m4] || 0) + (v.m[4]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m5] = (p[v.m5] || 0) + (v.m[5]/countSchoolsByType[v.tipo_escola]);
+                  			return p;
+						},
+
+						function (p, v) {
+						   	p[v.m1] = (p[v.m1] || 0) - (v.m[1]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m2] = (p[v.m2] || 0) - (v.m[2]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m3] = (p[v.m3] || 0) - (v.m[3]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m4] = (p[v.m4] || 0) - (v.m[4]/countSchoolsByType[v.tipo_escola]);
+						   	p[v.m5] = (p[v.m5] || 0) - (v.m[5]/countSchoolsByType[v.tipo_escola]);
+                  			return p;
+						},
+
+						function () {
+						  return {};
+						});
+
+					
 					function sel_stack(i) {
 			            return function(d) {
 			                return d.value[i];
@@ -150,17 +180,25 @@
 			          	schoolChart
 				            .width(500)
 							.height(380)
-				            .x(d3.scale.linear().domain([1,21]))
+							.x(d3.scale.ordinal())
+          					.xUnits(dc.units.ordinal)
+          					.elasticY(true)
+				            //.x(d3.scale.linear().domain(d3.extent(data, function(d){ return d.tipo_escola;} )))
 				            .margins({left: 50, top: 20, right: 10, bottom: 20})
 				            .brushOn(false)
-				            .clipPadding(10)
+				            // .clipPadding(10)
 				            .title(function(d) {
 				                return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
 				            })
-				            .yAxisLabel("This is the Y Axis!")
+				            .yAxisLabel("Pontuação")
 				            .dimension(schoolDim)
 				            .group(notasGroup, "1", sel_stack('1'))
 				            .renderLabel(true);
+
+				        schoolChart.xAxis().tickFormat(d3.format("d"));
+
+				         for(var i = 2; i<6; ++i)
+              				schoolChart.stack(notasGroup, ''+i, sel_stack(i));
         			
         			dc.renderAll();
         		});
