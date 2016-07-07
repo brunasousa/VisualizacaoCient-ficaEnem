@@ -12,21 +12,23 @@
         <body>
 
         	<div id='brazil-chart'>
-			      <h4> Mapa</h4>
-			       <a class="reset" href="javascript:brChart.filterAll();dc.redrawAll();">Resetar</a>
-			</div>
+			      <h4>Mapa</h4>
+			      <p><font size="2" color="gray">Selecione os estados no mapa para análise</font></p>
+			      <a class="reset" href="javascript:brChart.filterAll();dc.redrawAll();">Resetar</a>
+			</div><br>
 
         	<div id='age-chart'>
-			      <h4> Número de inscritos por idade</h4>
+			      <h4>Número de Candidatos Inscritos por Idade</h4>
+			      <p><font size="2" color="gray">Use o botão de <i>scroll</i> para aumentar ou reduzir o zoom</font></p>
 			</div>
 
 			<div id='abstention-chart'>
-			      <h4> Abstenções</h4>
+			      <h4>Quantidade de Abstenções por Ano</h4>
 			</div>
 
 			<div id='school-chart'>
-			      <h4> Tipo de Escola</h4>
-			</div>
+			      <h4>Pontuação dos Candidatos por Tipo de Escola</h4>
+			</div> <br>
 
 			<script type="text/javascript">
 				var ageChart = dc.seriesChart('#age-chart');
@@ -37,12 +39,13 @@
 				d3.json("enem2.json", function (data) {
 
 					data.forEach(function (d) {
-				        d.idade = +d.i; 
+				        d.idade = +d.i;
 				        d.sum = +d.s;
 				        d.ano = +d.a;
 				        d.status_redacao = d.r;
 				        d.uf = d.u;
-				        d.tipo_escola = d.t;
+				        //d.tipo_escola = d.t;
+				        d.tipo_escola = d.t == 1 ? "Federal" : (d.t == 2 ? "Estadual" : (d.t == 3 ? "Municipal" : (d.t == 4 ? "Privada" : "N/A")));
 				      
 				        d.m[1] = + d.m[1];
 				        d.m[2] = + d.m[2];
@@ -55,6 +58,18 @@
 						d.m3 = 3;
 						d.m4 = 4;
 						d.m5 = 5;
+
+						/*d.a[1] = "Ciências da natureza";
+						d.a[2] = "Ciências humanas";
+						d.a[3] = "Linguagens e códigos";
+						d.a[4] = "Matemática";
+						d.a[5] = "Redação";*/
+
+						d.area1 = "Ciências da natureza";
+						d.area2 = "Ciências humanas";
+						d.area3 = "Linguagens e códigos";
+						d.area4 = "Matemática";
+						d.area5 = "Redação";
 
 				    });
 
@@ -150,6 +165,7 @@
 						    .dimension(ageYear)
 						    .group(sumAgeGroup)
 						    .mouseZoomable(true)
+						    .renderHorizontalGridLines(true)
 						    .seriesAccessor(function(d) {return d.key[0];})
 						    .keyAccessor(function(d) {return d.key[1];})
 						    .valueAccessor(function(d) {return d.value})
@@ -165,6 +181,9 @@
 						    .x(d3.time.scale().domain(d3.extent(data, function(d){ return d.ano; })))
 						    //.interpolate('step-before')
 						    .renderArea(true)
+						    .brushOn(false)
+						    .renderHorizontalGridLines(true)
+						    .ordinalColors(['#c71585'])
 						    .yAxisLabel("Quantidade de Abstenções")
 						    .xAxisLabel("Ano")
 						    .renderDataPoints(true)
@@ -180,7 +199,8 @@
 			          	schoolChart
 				            .width(500)
 							.height(380)
-							.x(d3.scale.ordinal())
+							//.x(d3.scale.ordinal())
+							.x(d3.scale.ordinal().domain(data.map(function (d) {return d.tipo_escola; })))
           					.xUnits(dc.units.ordinal)
           					.elasticY(true)
 				            //.x(d3.scale.linear().domain(d3.extent(data, function(d){ return d.tipo_escola;} )))
@@ -191,13 +211,17 @@
 				                return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
 				            })
 				            .yAxisLabel("Pontuação")
+				            .xAxisLabel("Tipo de Escola")
 				            .dimension(schoolDim)
 				            .group(notasGroup, "1", sel_stack('1'))
+				            //.legend(dc.legend().x(200).y(0).itemHeight(13).gap(5).horizontal(true).legendWidth(200).itemWidth(70).legendText(function (d) { return ""+d.area1; }))
+				            .legend(dc.legend().x(200).y(0).itemHeight(13).gap(5).horizontal(true).legendWidth(200).itemWidth(70))
+				            .ordinalColors(['#330099', '#FFCC00', '#FF8000', '#0066B3', '#a6a6a6'])
 				            .renderLabel(true);
 
-				        schoolChart.xAxis().tickFormat(d3.format("d"));
+				        //schoolChart.xAxis().tickFormat(d3.format("d"));
 
-				         for(var i = 2; i<6; ++i)
+				         for(var i = 2; i < 6; ++i)
               				schoolChart.stack(notasGroup, ''+i, sel_stack(i));
         			
         			dc.renderAll();
