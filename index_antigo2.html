@@ -8,104 +8,29 @@
     		<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     		<script src="js/crossfilter.js" charset="utf-8"></script>
    			<script src="js/dc.js" charset="utf-8"></script>
-
-   			<script src="http://underscorejs.org/underscore-min.js" charset="utf-8"></script>
-
-   			<!-- Latest compiled and minified CSS -->
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-			<!-- Optional theme -->
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-			<!-- Latest compiled and minified JavaScript -->
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-			<!-- Custom styles for this template -->
-    		<link href="bootstrap/css/dashboard.css" rel="stylesheet">
-
         </head>
         <body>
 
-       		<nav class="navbar navbar-inverse navbar-fixed-top">
-		      <div class="container-fluid">
-		        <div class="navbar-header">
-		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		            <span class="sr-only">Toggle navigation</span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		          </button>
-		          <a class="navbar-brand" href="#">Visualizações do Enem</a>
-		        </div>
-		        <div id="navbar" class="navbar-collapse collapse">
-		          <ul class="nav navbar-nav navbar-right">
-		            <li><a href="#">Dashboard</a></li>
-		            <li><a href="#">Settings</a></li>
-		            <li><a href="#">Profile</a></li>
-		            <li><a href="#">Help</a></li>
-		          </ul>
-		          
-		        </div>
-		      </div>
-	    </nav>
+        	<div id='brazil-chart'>
+			      <h4>Mapa</h4>
+			      <p><font size="2" color="gray">Selecione os estados no mapa para análise</font></p>
+			      <a class="reset" href="javascript:brChart.filterAll();dc.redrawAll();">Resetar</a>
+			</div><br>
 
-	    <div class="container-fluid">
-		      	<div class="row">
-			        <div class="col-sm-3 col-md-2 sidebar">
-			          <ul class="nav nav-sidebar">
-			            <li class="active"><a href="index.html">Overview <span class="sr-only">(current)</span></a></li>
-			            <li><a href="renda.html">Renda</a></li>
-			            <li><a href="#">Necessidades Especiais</a></li>
-			          </ul>
-			          <ul class="nav nav-sidebar">
-			            <li><a href="">Equipe</a></li>
-			            <li><a href="">Ferramentas Utilizadas</a></li>
-			            <li><a href="">Metodologia</a></li>
-			          </ul>
-			        </div>
+        	<div id='age-chart'>
+			      <h4>Número de Candidatos Inscritos por Idade</h4>
+			      <p><font size="2" color="gray">Use o botão de <i>scroll</i> para aumentar ou reduzir o zoom</font></p>
+			</div>
 
-			      	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		        	  	<h1 class="page-header">Visão Geral</h1>
+			<div id='abstention-chart'>
+			      <h4>Quantidade de Abstenções por Ano</h4>
+			</div>
 
-		        	  	<div class="row">
-            				<div class="col-md-6">
-            					<div id='brazil-chart'>
-							      	<h4>Mapa</h4>
-							      	<p><font size="2" color="gray">Selecione os estados no mapa para análise</font></p>
-							     	<ol class="legend-geoChart"></ol>
-							 
-								</div>
-            				</div>
+			<div id='school-chart'>
+			      <h4>Pontuação dos Candidatos por Tipo de Escola</h4>
+			</div> <br>
 
-            				<div class="col-md-6">
-            					<div id='age-chart'>
-						      		<h4>Número de Candidatos Inscritos por Idade</h4>
-						     		 <p><font size="2" color="gray">Use o botão de <i>scroll</i> para aumentar ou reduzir o zoom</font></p>
-								</div>
-            				</div>
-
-            			</div>
-
-            			<div class="row">
-            				<div class="col-md-6">
-            					<div id='abstention-chart'>
-						      		<h4>Quantidade de Abstenções por Ano</h4>
-								</div>
-            				</div>
-
-            				<div class="col-md-6">
-            					<div id='school-chart'>
-						      		<h4>Pontuação dos Candidatos por Tipo de Escola</h4>
-								</div>
-            				</div>
-            				
-            			</div>
-
-					</div>
-	      		</div>
-		</div>
-
-		<script type="text/javascript">
+			<script type="text/javascript">
 				var ageChart = dc.seriesChart('#age-chart');
 				var abstentionChart = dc.lineChart('#abstention-chart');
 				var brChart = dc.geoChoroplethChart("#brazil-chart");
@@ -141,7 +66,6 @@
 					var ageYear = facts.dimension(function(d) {return [d.ano, d.idade]; });
   					var sumAgeGroup = ageYear.group().reduceSum(function(d) { return d.sum; });
 
-
   					var yearDim = facts.dimension(function(d) {return [d.ano]; });
 
   					var sumAbstByYearGroup = yearDim.group().reduceSum(function(d) {
@@ -155,23 +79,12 @@
   						 return d.sum;
   					});
 
-
   					var ufDim = facts.dimension(function(d) {return d.uf; });
 					var sumUfGroup = ufDim.group().reduceSum(function(d) { return d.sum; });
-					var groubByCountOfCantidates = sumUfGroup.all();
-
-					groubByCountOfCantidates.sort(
-					    function(a, b) {
-					        return a.value - b.value
-					    }
-					)
-					var minCandidatos = groubByCountOfCantidates[0].value;
-					var maxCandidatos = groubByCountOfCantidates[26].value;
-
 
 					var projection = d3.geo.mercator()
-						.center([-35,-17])
-						.scale(500)
+						.center([-40,-10])
+						.scale(600)
 						.rotate([-12,0]);
 
 					var schoolDim = facts.dimension(function(d) {return d.tipo_escola;});
@@ -215,8 +128,8 @@
 
 					d3.json("brazil_geo.json", function (error, statesJson) {
 						console.log('map', error);
-			            brChart.width(380)
-			                    .height(450)
+			            brChart.width(800)
+			                    .height(900)
 			                    .dimension(ufDim)
 			                    .group(sumUfGroup)
 			                    .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
@@ -226,7 +139,6 @@
 			                    .overlayGeoJson(statesJson.features, "estados", function (d) {
 			                        return d.properties.sigla;
 			                    });
-
 
 	              		ageChart
 						    .width(500)
@@ -240,7 +152,7 @@
 						    .elasticY(true)
 						    .dimension(ageYear)
 						    .group(sumAgeGroup)
-						    //.mouseZoomable(true)
+						    .mouseZoomable(true)
 						    .renderHorizontalGridLines(true)
 						    .seriesAccessor(function(d) {return d.key[0];})
 						    .keyAccessor(function(d) {return d.key[1];})
@@ -302,7 +214,6 @@
 
 				        //schoolChart.xAxis().tickFormat(d3.format("d"));
 				        schoolChart.margins().top += 40;
-				        schoolChart.margins().bottom += 40;
 
 				         for(var i = 2; i < 6; ++i)
               				schoolChart.stack(notasGroup, ''+i, sel_stack(i));
@@ -310,37 +221,7 @@
         			dc.renderAll();
         		});
 
-				createLegendMap(minCandidatos, maxCandidatos);
-				
-
-            });
-
-
-			function createLegendMap(minCandidatos, maxCandidatos){
-				var height = 400;
-
-				var mapLegendColors = d3.scale.linear()
-	              .domain(d3.range(0,10))
-	              .range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]);
-
-	          	var legendGeoChart = d3.select('.legend-geoChart')
-	            	.attr("style", function (d) { return "margin-top: " + (height / 4) + "px; width: 100px; list-style-type: none; float: left;"; });
-
-	          	var legendItems = legendGeoChart.selectAll('.legendItems-item')
-	            	.data(_.zip(mapLegendColors.domain(), mapLegendColors.range()))
-
-	          	legendItems.enter().append('li')
-	              .attr("style", function (d) { return "background-color: " + mapLegendColors(d[0]) + ";"; })
-	              .html(function(d) {
-	                if (d[0] === 0){
-	                  return minCandidatos;
-	                };
-	                if (d[0] === 9){
-	                    return maxCandidatos;
-	                };
-	                return "&nbsp;";
-	              });
-			}
+			});
 
 			</script>
 

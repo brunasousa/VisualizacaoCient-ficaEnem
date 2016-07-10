@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+        	<meta charset="UTF-8">
+			<title>Análise de Dados - Enem 2009-2012</title>
+			<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.css">
+			
+   			<script
+			  src="https://code.jquery.com/jquery-2.2.4.min.js"
+			  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+			  crossorigin="anonymous"></script>
+
+    		<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    		<script src="js/crossfilter.js" charset="utf-8"></script>
+   			<script src="js/dc.js" charset="utf-8"></script>
+
+   			<script src="http://underscorejs.org/underscore-min.js" charset="utf-8"></script>
+
+   			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+			<!-- Custom styles for this template -->
+    		<link href="bootstrap/css/dashboard.css" rel="stylesheet">
+
+    		<script>
+				$(document).ready(function(){
+				    $("#btLegenda2009").click(function(){
+				        $("#legenda2009").toggle();
+				    });
+				});
+
+				$(document).ready(function(){
+				    $("#btLegenda2010").click(function(){
+				        $("#legenda2010").toggle();
+				    });
+				});
+
+				$(document).ready(function(){
+				    $("#btLegenda2011").click(function(){
+				        $("#legenda2011").toggle();
+				    });
+				});
+
+				$(document).ready(function(){
+				    $("#btLegenda2012").click(function(){
+				        $("#legenda2012").toggle();
+				    });
+				});
+			</script>
+
+        </head>
+        <body>
+
+       		<nav class="navbar navbar-inverse navbar-fixed-top">
+		      <div class="container-fluid">
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="#">Visualizações do Enem</a>
+		        </div>
+		        <div id="navbar" class="navbar-collapse collapse">
+		          <ul class="nav navbar-nav navbar-right">
+		            <li><a href="#">Dashboard</a></li>
+		            <li><a href="#">Settings</a></li>
+		            <li><a href="#">Profile</a></li>
+		            <li><a href="#">Help</a></li>
+		          </ul>
+		          
+		        </div>
+		      </div>
+	    </nav>
+
+	    <div class="container-fluid">
+		      	<div class="row">
+			        <div class="col-sm-3 col-md-2 sidebar">
+			          <ul class="nav nav-sidebar">
+			            <li class="active"><a href="index.html">Overview <span class="sr-only">(current)</span></a></li>
+			            <li><a href="renda.html">Renda</a></li>
+			            <li><a href="#">Necessidades Especiais</a></li>
+			          </ul>
+			          <ul class="nav nav-sidebar">
+			            <li><a href="">Equipe</a></li>
+			            <li><a href="">Ferramentas Utilizadas</a></li>
+			            <li><a href="">Metodologia</a></li>
+			          </ul>
+			        </div>
+
+			      	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		        	  	<h1 class="page-header">Visão Geral</h1>
+
+
+		        	  	<!--Linha 1 -->
+
+		        	  	<div class="row">
+            				<div class="col-md-6">
+
+            					<div class="row">
+	            					<div id='renda2012-chart'>
+							      		<h4>Quantitativo de candidatos por renda (2012)</h4>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div>
+										<button  type="button" id="btLegenda2012" class="btn btn-primary">Legenda</button>
+										<div id="legenda2012">
+											<div class="panel panel-default">
+											  <!-- Default panel contents -->
+											  <div class="panel-heading">Legenda 2012</div>
+
+											  <!-- Table -->
+											  <table class="table">
+											     <thead> 
+											     	<tr> 
+											     		<th>Letra</th> 
+											     		<th>Renda</th> 
+											     	</tr> 
+											     </thead> 
+											     <tbody> 
+											     	<tr> 
+											     		<td>A</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+											     	<tr> 
+											     		<td>B</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>C</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>D</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>E</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>F</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>G</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>H</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     </tbody> 
+											 </table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+            				</div>
+
+
+
+            				<div class="col-md-6">
+
+            					<div class="row">
+	            					<div id='renda2011-chart'>
+							      		<h4>Quantitativo de candidatos por renda (2011)</h4>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div>
+										<button  type="button" id="btLegenda2011" class="btn btn-primary">Legenda</button>
+										<div id="legenda2011">
+											<div class="panel panel-default">
+											  <!-- Default panel contents -->
+											  <div class="panel-heading">Legenda 2011</div>
+
+											  <!-- Table -->
+											  <table class="table">
+											     <thead> 
+											     	<tr> 
+											     		<th>Letra</th> 
+											     		<th>Renda</th> 
+											     	</tr> 
+											     </thead> 
+											     <tbody> 
+											     	<tr> 
+											     		<td>A</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+											     	<tr> 
+											     		<td>B</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>C</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>D</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>E</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>F</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>G</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>H</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     </tbody> 
+											 </table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+            				</div>
+
+            				
+            			</div>
+
+
+		        	  	<!--Linha 2 -->
+
+            			<div class="row">
+            				<div class="col-md-6">
+
+            					<div class="row">
+	            					<div id='renda2009-chart'>
+							      		<h4>Quantitativo de candidatos por renda (2009)</h4>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div>
+										<button  type="button" id="btLegenda2009" class="btn btn-primary">Legenda</button>
+										<div id="legenda2009">
+											<div class="panel panel-default">
+											  <!-- Default panel contents -->
+											  <div class="panel-heading">Legenda 2009</div>
+
+											  <!-- Table -->
+											  <table class="table">
+											     <thead> 
+											     	<tr> 
+											     		<th>Letra</th> 
+											     		<th>Renda</th> 
+											     	</tr> 
+											     </thead> 
+											     <tbody> 
+											     	<tr> 
+											     		<td>A</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+											     	<tr> 
+											     		<td>B</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>C</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>D</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>E</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>F</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>G</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>H</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     </tbody> 
+											 </table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+            				</div>
+
+
+
+            				<div class="col-md-6">
+
+            					<div class="row">
+	            					<div id='renda2010-chart'>
+							      		<h4>Quantitativo de candidatos por renda (2010)</h4>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div>
+										<button  type="button" id="btLegenda2010" class="btn btn-primary">Legenda</button>
+										<div id="legenda2010">
+											<div class="panel panel-default">
+											  <!-- Default panel contents -->
+											  <div class="panel-heading">Legenda 2010</div>
+
+											  <!-- Table -->
+											  <table class="table">
+											     <thead> 
+											     	<tr> 
+											     		<th>Letra</th> 
+											     		<th>Renda</th> 
+											     	</tr> 
+											     </thead> 
+											     <tbody> 
+											     	<tr> 
+											     		<td>A</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+											     	<tr> 
+											     		<td>B</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>C</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>D</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>E</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>F</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>G</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>H</td> 
+											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     	</tr> 
+
+											     </tbody> 
+											 </table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+            				</div>
+
+            				
+            			</div>
+
+
+
+
+					</div>
+	      		</div>
+		</div>
+
+		<script type="text/javascript">
+
+				$("#legenda2012").toggle();
+				$("#legenda2011").toggle();
+				$("#legenda2010").toggle();
+				$("#legenda2009").toggle();
+
+
+
+				var renda2009Chart = dc.lineChart('#renda2009-chart');
+				var renda2010Chart = dc.lineChart('#renda2010-chart');
+				var renda2011Chart = dc.lineChart('#renda2011-chart');
+				var renda2012Chart = dc.lineChart('#renda2012-chart');
+
+
+				d3.json("enem2.json", function (data) {
+
+					data.forEach(function (d) {
+				        d.idade = +d.i;
+				        d.sum = +d.s;
+				        d.ano = +d.a;
+				        d.status_redacao = d.r;
+				        d.uf = d.u;
+				        d.renda = d.r;
+
+				    });
+
+					var facts = crossfilter(data);
+
+
+					var rendaDim = facts.dimension(function(d) {return [d.renda]; });
+
+					var sumRendaBy2009Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2009) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+
+  					remove_empty_bins(sumRendaBy2009Group);
+
+					var sumRendaBy2010Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2010) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+  					var sumRendaBy2011Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2011) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+  					var sumRendaBy2012Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2012) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+						renda2009Chart
+						    .width(500)
+						    .height(380)
+						    .x(d3.scale.ordinal()) 
+					       	.xUnits(dc.units.ordinal) 
+						    //.interpolate('step-before')
+						    .renderArea(true)
+						    .brushOn(false)
+						    .renderHorizontalGridLines(true)
+						    .ordinalColors(['#00CED1'])
+						    .yAxisLabel("Quantidade de Candiatos")
+						    .xAxisLabel("Renda")
+						    .renderDataPoints(true)
+						    .clipPadding(10)
+						    .dimension(rendaDim)
+						    .group(sumRendaBy2009Group);
+
+
+						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
+						renda2009Chart.margins().left += 40;
+
+
+						renda2010Chart
+						    .width(500)
+						    .height(380)
+						    .x(d3.scale.ordinal()) 
+					       	.xUnits(dc.units.ordinal) 
+						    //.interpolate('step-before')
+						    .renderArea(true)
+						    .brushOn(false)
+						    .renderHorizontalGridLines(true)
+						    .ordinalColors(['#00CED1'])
+						    .yAxisLabel("Quantidade de Candiatos")
+						    .xAxisLabel("Renda")
+						    .renderDataPoints(true)
+						    .clipPadding(10)
+						    .dimension(rendaDim)
+						    .group(sumRendaBy2010Group);
+
+
+						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
+						renda2010Chart.margins().left += 40;
+
+
+						renda2011Chart
+						    .width(500)
+						    .height(380)
+						    .x(d3.scale.ordinal()) 
+					       	.xUnits(dc.units.ordinal) 
+						    //.interpolate('step-before')
+						    .renderArea(true)
+						    .brushOn(false)
+						    .renderHorizontalGridLines(true)
+						    .ordinalColors(['#00CED1'])
+						    .yAxisLabel("Quantidade de Candiatos")
+						    .xAxisLabel("Renda")
+						    .renderDataPoints(true)
+						    .clipPadding(10)
+						    .dimension(rendaDim)
+						    .group(sumRendaBy2011Group);
+
+
+						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
+						renda2011Chart.margins().left += 40;
+
+
+						renda2012Chart
+						    .width(500)
+						    .height(380)
+						    .x(d3.scale.ordinal()) 
+					       	.xUnits(dc.units.ordinal) 
+						    //.interpolate('step-before')
+						    .renderArea(true)
+						    .brushOn(false)
+						    .renderHorizontalGridLines(true)
+						    .ordinalColors(['#00CED1'])
+						    .yAxisLabel("Quantidade de Candiatos")
+						    .xAxisLabel("Renda")
+						    .renderDataPoints(true)
+						    .clipPadding(10)
+						    .dimension(rendaDim)
+						    .group(sumRendaBy2012Group);
+
+
+						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
+						renda2012Chart.margins().left += 40;
+
+
+        			
+        			dc.renderAll();
+        		});
+
+        		function remove_empty_bins(source_group) {
+				    return {
+				        all:function () {
+				            return source_group.all().filter(function(d) {
+				                return d.value != 0;
+				            });
+				        }
+				    };
+				}
+
+			</script>
+
+        </body>
+</html>

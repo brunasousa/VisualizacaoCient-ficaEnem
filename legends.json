@@ -1,0 +1,12 @@
+[
+	{"ano":2009,"rendas":{
+					"renda": {"tipo":"A", "descricao":"Até 1 salário mínimo (até R$ 465,00 inclusive)"},
+					"renda": {"tipo":"B", "descricao":"De 1 a 2 salários mínimos (R$465,00 a R$ 930,00 inclusive)"},
+					"renda": {"tipo":"C", "descricao":"De 2 a 5 salários mínimos (R$930,00 a R$ 2.325,00 inclusive)"},
+					"renda": {"tipo":"D", "descricao":"Até 1 salário mínimo (até R$ 465,00 inclusive)"},
+					"renda": {"tipo":"E", "descricao":"Até 1 salário mínimo (até R$ 465,00 inclusive)"},
+					"renda": {"tipo":"F", "descricao":"Até 1 salário mínimo (até R$ 465,00 inclusive)"},
+					"renda": {"tipo":"G", "descricao":"Até 1 salário mínimo (até R$ 465,00 inclusive)"},
+					"renda": {"tipo":"H", "descricao":"Até 1 salário mínimo (até R$ 465,00 inclusive)"}}}
+
+]
