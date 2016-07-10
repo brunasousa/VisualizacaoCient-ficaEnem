@@ -16,6 +16,9 @@
 
    			<script src="http://underscorejs.org/underscore-min.js" charset="utf-8"></script>
 
+   			<script src="jquery-ui/jquery-ui.min.js" charset="utf-8"></script>
+
+
    			<!-- Latest compiled and minified CSS -->
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -28,30 +31,48 @@
 			<!-- Custom styles for this template -->
     		<link href="bootstrap/css/dashboard.css" rel="stylesheet">
 
-    		<script>
-				$(document).ready(function(){
-				    $("#btLegenda2009").click(function(){
-				        $("#legenda2009").toggle();
-				    });
-				});
+    		<link href="jquery-ui/jquery-ui.css" rel="stylesheet">
 
-				$(document).ready(function(){
-				    $("#btLegenda2010").click(function(){
-				        $("#legenda2010").toggle();
-				    });
-				});
+    		<link href="jquery-ui/jquery-ui.theme.css" rel="stylesheet">
 
-				$(document).ready(function(){
-				    $("#btLegenda2011").click(function(){
-				        $("#legenda2011").toggle();
-				    });
-				});
+    		<link href="jquery-ui/jquery-ui.structure.min.css" rel="stylesheet">
 
-				$(document).ready(function(){
-				    $("#btLegenda2012").click(function(){
-				        $("#legenda2012").toggle();
+    		<script>	
+
+				  $(function() {
+				    $( ".dialog" ).dialog({
+				      autoOpen: false,
+				      minWidth: 500,
+				      maxHeight: 600,
+				      show: {
+				        effect: "blind",
+				        duration: 1000
+				      },
+				      hide: {
+				        effect: "explode",
+				        duration: 1000
+				      }
 				    });
-				});
+				 
+				    $( "#btLegenda2012" ).click(function() {
+				      $( "#dialogLegenda2012" ).dialog( "open" );
+				    });
+
+				    $( "#btLegenda2011" ).click(function() {
+				      $( "#dialogLegenda2011" ).dialog( "open" );
+				    });
+
+
+				    $( "#btLegenda2010" ).click(function() {
+				      $( "#dialogLegenda2010" ).dialog( "open" );
+				    });
+
+
+				    $( "#btLegenda2009" ).click(function() {
+				      $( "#dialogLegenda2009" ).dialog( "open" );
+				    });
+
+				  });
 			</script>
 
         </head>
@@ -84,8 +105,8 @@
 		      	<div class="row">
 			        <div class="col-sm-3 col-md-2 sidebar">
 			          <ul class="nav nav-sidebar">
-			            <li class="active"><a href="index.html">Overview <span class="sr-only">(current)</span></a></li>
-			            <li><a href="renda.html">Renda</a></li>
+			            <li><a href="index.html">Overview <span class="sr-only">(current)</span></a></li>
+			            <li class="active"><a href="renda.html">Renda</a></li>
 			            <li><a href="#">Necessidades Especiais</a></li>
 			          </ul>
 			          <ul class="nav nav-sidebar">
@@ -96,28 +117,33 @@
 			        </div>
 
 			      	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		        	  	<h1 class="page-header">Visão Geral</h1>
+		        	  	<h1 class="page-header">Gráficos de Renda</h1>
 
 
 		        	  	<!--Linha 1 -->
 
 		        	  	<div class="row">
+
             				<div class="col-md-6">
 
             					<div class="row">
 	            					<div id='renda2012-chart'>
 							      		<h4>Quantitativo de candidatos por renda (2012)</h4>
 									</div>
+									
+								</div>
+
+								<div class="row">
+									<button  type="button" id="btLegenda2012" class="btn btn-primary">Mostrar Legenda</button>
 								</div>
 								
-								<div class="row">
-									<div>
-										<button  type="button" id="btLegenda2012" class="btn btn-primary">Legenda</button>
+								<div id="dialogLegenda2012" class="dialog" title="Legenda 2012">
+												
 										<div id="legenda2012">
 											<div class="panel panel-default">
-											  <!-- Default panel contents -->
-											  <div class="panel-heading">Legenda 2012</div>
-
+											  <!-- Default panel contents 
+											  <div class="panel-heading">Legenda 2012</div>-->
+				
 											  <!-- Table -->
 											  <table class="table">
 											     <thead> 
@@ -129,48 +155,102 @@
 											     <tbody> 
 											     	<tr> 
 											     		<td>A</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Nenhuma renda</td> 
 											     	</tr> 
 											     	<tr> 
 											     		<td>B</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Até um salário mínimo (até R$622,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>C</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 1 até 1,5 (de R$ 622,01 até R$ 933,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>D</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 1,5 até 2 (de R$ 933,01 até R$ 1244,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>E</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 2 até 2,5 (de R$ 1244,01 até R$ 1555,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>F</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 2,5 até 3 (de R$ 1555,01 até R$ 1866,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>G</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 3 até 4 (de R$ 1866,01 até R$ 2488,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>H</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 4 até 5 (de R$ 2488,01 até R$ 3110,00)</td> 
 											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>I</td> 
+											     		<td>Mais de 5 até 6 (de R$ 3110,01 até R$ 3732,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>J</td> 
+											     		<td>Mais de 6 até 7 (de R$ 3732,01 até R$ 4354,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>K</td> 
+											     		<td>Mais de 7 até 8 (de R$ 4354,01 até R$ 4976,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>L</td> 
+											     		<td>Mais de 8 até 9 (de R$ 4976,01 até R$ 5598,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>M</td> 
+											     		<td>Mais de 9 até 10 (de R$ 5598,01 até R$ 6220,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>N</td> 
+											     		<td>Mais de 10 até 12 (de R$ 6220,01 até R$ 7464,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>O</td> 
+											     		<td>Mais de 12 até 15 (de R$ 7464,01 até R$ 9330,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>P</td> 
+											     		<td>Mais de 15 até 20 (de R$ 9330,01 até R$ 12440,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>Q</td> 
+											     		<td>Acima de 20 salários (mais de R$12440,00)</td> 
+											     	</tr> 
+
 
 											     </tbody> 
 											 </table>
 											</div>
 										</div>
-									</div>
 								</div>
 
             				</div>
@@ -183,15 +263,19 @@
 	            					<div id='renda2011-chart'>
 							      		<h4>Quantitativo de candidatos por renda (2011)</h4>
 									</div>
+									
+								</div>
+
+								<div class="row">
+									<button  type="button" id="btLegenda2011" class="btn btn-primary">Mostrar Legenda</button>
 								</div>
 								
-								<div class="row">
-									<div>
-										<button  type="button" id="btLegenda2011" class="btn btn-primary">Legenda</button>
+								<div id="dialogLegenda2011" class="dialog" title="Legenda 2011">
+										
 										<div id="legenda2011">
 											<div class="panel panel-default">
-											  <!-- Default panel contents -->
-											  <div class="panel-heading">Legenda 2011</div>
+											  <!-- Default panel contents 
+											  <div class="panel-heading">Legenda 2011</div>-->
 
 											  <!-- Table -->
 											  <table class="table">
@@ -202,50 +286,68 @@
 											     	</tr> 
 											     </thead> 
 											     <tbody> 
+											     	
 											     	<tr> 
 											     		<td>A</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Nenhuma renda</td> 
 											     	</tr> 
 											     	<tr> 
 											     		<td>B</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Até um salário mínimo (até R$545,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>C</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Entre 1 e 1,5 salários (entre R$545,00 até R$817,50)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>D</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Entre 1,5 e 2 salários (entre R$817,50 até R$1.090,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>E</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Entre 2 e 5 salários (entre R$1.090,00 até R$2.725,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>F</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Entre 5 e 7 salários (entre R$2.725,00 até R$3.815,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>G</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Entre 7 e 10 salários (entre R$3.815,00 até R$5.450,00)</td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>H</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Entre 10 e 12 salários (entre R$5.450,00 até R$ 6.540,00)</td> 
 											     	</tr> 
+
+											     	<tr> 
+											     		<td>I</td> 
+											     		<td>Entre 12 e 15 salários (entre R$6.540,00 até R$8.175,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>J</td> 
+											     		<td>Entre 15 e 30 salários (entre R$8.175,00 até R$ 16.350,00)</td> 
+											     	</tr> 
+
+
+											     	<tr> 
+											     		<td>K</td> 
+											     		<td>Acima de 30 salários (mais de R$16.350,00)</td> 
+											     	</tr> 
+
 
 											     </tbody> 
 											 </table>
 											</div>
 										</div>
-									</div>
 								</div>
 
             				</div>
@@ -257,79 +359,6 @@
 		        	  	<!--Linha 2 -->
 
             			<div class="row">
-            				<div class="col-md-6">
-
-            					<div class="row">
-	            					<div id='renda2009-chart'>
-							      		<h4>Quantitativo de candidatos por renda (2009)</h4>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div>
-										<button  type="button" id="btLegenda2009" class="btn btn-primary">Legenda</button>
-										<div id="legenda2009">
-											<div class="panel panel-default">
-											  <!-- Default panel contents -->
-											  <div class="panel-heading">Legenda 2009</div>
-
-											  <!-- Table -->
-											  <table class="table">
-											     <thead> 
-											     	<tr> 
-											     		<th>Letra</th> 
-											     		<th>Renda</th> 
-											     	</tr> 
-											     </thead> 
-											     <tbody> 
-											     	<tr> 
-											     		<td>A</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-											     	<tr> 
-											     		<td>B</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     	<tr> 
-											     		<td>C</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     	<tr> 
-											     		<td>D</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     	<tr> 
-											     		<td>E</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     	<tr> 
-											     		<td>F</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     	<tr> 
-											     		<td>G</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     	<tr> 
-											     		<td>H</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
-											     	</tr> 
-
-											     </tbody> 
-											 </table>
-											</div>
-										</div>
-									</div>
-								</div>
-
-            				</div>
-
 
 
             				<div class="col-md-6">
@@ -339,14 +368,94 @@
 							      		<h4>Quantitativo de candidatos por renda (2010)</h4>
 									</div>
 								</div>
-								
+
 								<div class="row">
-									<div>
-										<button  type="button" id="btLegenda2010" class="btn btn-primary">Legenda</button>
+									<button  type="button" id="btLegenda2010" class="btn btn-primary">Mostrar Legenda</button>
+								</div>
+								
+								<div id="dialogLegenda2010" class="dialog" title="Legenda 2010">
+										
 										<div id="legenda2010">
 											<div class="panel panel-default">
-											  <!-- Default panel contents -->
-											  <div class="panel-heading">Legenda 2010</div>
+											  <!-- Default panel contents
+											  <div class="panel-heading">Legenda 2010</div>  -->
+
+											  <!-- Table -->
+											  <table class="table">
+											     <thead> 
+											     	<tr> 
+											     		<th>Letra</th> 
+											     		<th>Renda</th> 
+											     	</tr> 
+											     </thead> 
+											     <tbody> 
+											     	<tr> 
+											     		<td>A</td> 
+											     		<td>Até 1 salário mínimo (até R$ 510,00)</td> 
+											     	</tr> 
+											     	<tr> 
+											     		<td>B</td> 
+											     		<td>De 1 a 3 salários mínimos (de R$ 510,00 até R$ 1.530,00)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>C</td> 
+											     		<td>De 3 a 6 salários mínimos (de R$ 1.530,00 até R$ 3.060,00)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>D</td> 
+											     		<td>De 6 a 9 salários mínimos (de R$ 3.060,00 até R$ 4.590,00)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>E</td> 
+											     		<td>De 9 a 12 salários mínimos (de R$ 4.590,00 até R$ 6.120,00)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>F</td> 
+											     		<td>De 12 a 15 salários mínimos (de R$ 6.210,00 até R$ 7.650,00)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>G</td> 
+											     		<td>Mais de 15 salários mínimos (mais de R$ 7.650,00)</td> 
+											     	</tr> 
+
+											     	<tr> 
+											     		<td>H</td> 
+											     		<td>Nenhuma renda</td> 
+											     	</tr> 
+
+											     </tbody> 
+											 </table>
+											</div>
+										</div>
+								</div>
+
+            				</div>
+
+
+
+            				<div class="col-md-6">
+
+            					<div class="row">
+	            					<div id='renda2009-chart'>
+							      		<h4>Quantitativo de candidatos por renda (2009)</h4>
+									</div>
+								</div>
+
+								<div class="row">
+									<button  type="button" id="btLegenda2009" class="btn btn-primary">Mostrar Legenda</button>
+								</div>
+								
+								<div id="dialogLegenda2009" class="dialog" title="Legenda 2009">
+										
+										<div id="legenda2009">
+											<div class="panel panel-default">
+											  <!-- Default panel contents 
+											  <div class="panel-heading">Legenda 2009</div>-->
 
 											  <!-- Table -->
 											  <table class="table">
@@ -363,47 +472,49 @@
 											     	</tr> 
 											     	<tr> 
 											     		<td>B</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>De 1 a 2 salários mínimos (R$ 465,00 a R$ 930,00 inclusive) </td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>C</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>De 2 a 5 salários mínimos (R$ 930,00 a R$ 2.325,00 inclusive) </td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>D</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>De 5 a 10 salários mínimos (R$ 2.325,00 a R$ 4.650,00 inclusive) </td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>E</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>De 10 a 30 salários mínimos (R$ 4.650,00 a R$ 13.950,00 inclusive) </td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>F</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>De 30 a 50 salários mínimos (R$ 13.950,00 a R$ 23.250,00 inclusive) </td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>G</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Mais de 50 salários mínimos (mais de R$ 23.250,00) </td> 
 											     	</tr> 
 
 											     	<tr> 
 											     		<td>H</td> 
-											     		<td>Até 1 salário mínimo (até R$ 465,00 inclusive)</td> 
+											     		<td>Nenhuma renda </td> 
 											     	</tr> 
 
 											     </tbody> 
 											 </table>
 											</div>
 										</div>
-									</div>
 								</div>
 
             				</div>
+
+
+
 
             				
             			</div>
@@ -417,12 +528,6 @@
 
 		<script type="text/javascript">
 
-				$("#legenda2012").toggle();
-				$("#legenda2011").toggle();
-				$("#legenda2010").toggle();
-				$("#legenda2009").toggle();
-
-
 
 				var renda2009Chart = dc.lineChart('#renda2009-chart');
 				var renda2010Chart = dc.lineChart('#renda2010-chart');
@@ -430,17 +535,16 @@
 				var renda2012Chart = dc.lineChart('#renda2012-chart');
 
 
-				d3.json("enem2.json", function (data) {
+				d3.json("jsonPorAno/enem2009.json", function (data) {
 
 					data.forEach(function (d) {
-				        d.idade = +d.i;
 				        d.sum = +d.s;
 				        d.ano = +d.a;
-				        d.status_redacao = d.r;
-				        d.uf = d.u;
 				        d.renda = d.r;
 
 				    });
+
+				    console.log("map", data);
 
 					var facts = crossfilter(data);
 
@@ -454,29 +558,6 @@
   						 	return 0; 
   					});
 
-
-  					remove_empty_bins(sumRendaBy2009Group);
-
-					var sumRendaBy2010Group = rendaDim.group().reduceSum(function(d) {
-  						 if(d.ano == 2010) 
-  						 	return d.sum;
-  						 else 
-  						 	return 0; 
-  					});
-
-  					var sumRendaBy2011Group = rendaDim.group().reduceSum(function(d) {
-  						 if(d.ano == 2011) 
-  						 	return d.sum;
-  						 else 
-  						 	return 0; 
-  					});
-
-  					var sumRendaBy2012Group = rendaDim.group().reduceSum(function(d) {
-  						 if(d.ano == 2012) 
-  						 	return d.sum;
-  						 else 
-  						 	return 0; 
-  					});
 
 						renda2009Chart
 						    .width(500)
@@ -499,8 +580,33 @@
 						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
 						renda2009Chart.margins().left += 40;
 
+						renda2009Chart.render();
 
-						renda2010Chart
+        		});
+
+/*
+        		d3.json("jsonPorAno/pne2010.json", function (data) {
+
+					data.forEach(function (d) {
+				        d.sum = +d.s;
+				        d.ano = +d.a;
+				        d.renda = d.r;
+
+				    });
+
+				    var facts = crossfilter(data);
+
+
+					var rendaDim = facts.dimension(function(d) {return [d.renda]; });
+
+					var sumRendaBy2010Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2010) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+  					renda2010Chart
 						    .width(500)
 						    .height(380)
 						    .x(d3.scale.ordinal()) 
@@ -518,11 +624,36 @@
 						    .group(sumRendaBy2010Group);
 
 
-						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
-						renda2010Chart.margins().left += 40;
+					//renda2009Chart.xAxis().tickFormat(d3.format("d"));
+					renda2010Chart.margins().left += 40;
+
+					renda2010Chart.render();
+
+				 });
 
 
-						renda2011Chart
+        		d3.json("jsonPorAno/pne2011.json", function (data) {
+
+					data.forEach(function (d) {
+				        d.sum = +d.s;
+				        d.ano = +d.a;
+				        d.renda = d.r;
+
+				    });
+
+				    var facts = crossfilter(data);
+
+
+					var rendaDim = facts.dimension(function(d) {return [d.renda]; });
+
+					var sumRendaBy2011Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2011) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+  					renda2011Chart
 						    .width(500)
 						    .height(380)
 						    .x(d3.scale.ordinal()) 
@@ -543,8 +674,33 @@
 						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
 						renda2011Chart.margins().left += 40;
 
+						renda2011Chart.render();
 
-						renda2012Chart
+				 });
+
+
+        		d3.json("jsonPorAno/pne2012.json", function (data) {
+
+					data.forEach(function (d) {
+				        d.sum = +d.s;
+				        d.ano = +d.a;
+				        d.renda = d.r;
+
+				    });
+
+				    var facts = crossfilter(data);
+
+
+					var rendaDim = facts.dimension(function(d) {return [d.renda]; });
+
+					var sumRendaBy2012Group = rendaDim.group().reduceSum(function(d) {
+  						 if(d.ano == 2012) 
+  						 	return d.sum;
+  						 else 
+  						 	return 0; 
+  					});
+
+  					renda2012Chart
 						    .width(500)
 						    .height(380)
 						    .x(d3.scale.ordinal()) 
@@ -565,20 +721,13 @@
 						//renda2009Chart.xAxis().tickFormat(d3.format("d"));
 						renda2012Chart.margins().left += 40;
 
+						renda2012Chart.render();
 
-        			
-        			dc.renderAll();
-        		});
+				 });
 
-        		function remove_empty_bins(source_group) {
-				    return {
-				        all:function () {
-				            return source_group.all().filter(function(d) {
-				                return d.value != 0;
-				            });
-				        }
-				    };
-				}
+
+*/
+
 
 			</script>
 
