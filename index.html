@@ -64,7 +64,7 @@
 		        	  	<div class="row">
             				<div class="col-md-6">
             					<div id='brazil-chart'>
-							      	<h4>Distribuição de Canditados por Estado</h4>
+							      	<h4>Distribuição de Candidatos por Estado</h4>
 							      	<p>
 							      		<font size="2" color="gray">Selecione os estados no mapa para análise</font>
 							      		<a class="reset" href="javascript:brChart.filterAll();dc.redrawAll();" style=""> -> Retirar Filtros</a>
@@ -154,8 +154,7 @@
 
   					var sumTotalByYearGroup = yearDim.group().reduceSum(function(d) {
   						 return d.sum;
-  					});
-
+  					}).all();
 
   					var ufDim = facts.dimension(function(d) {return d.uf; });
 					var sumUfGroup = ufDim.group().reduceSum(function(d) { return d.sum; });
@@ -261,13 +260,18 @@
 						    .brushOn(false)
 						    .renderHorizontalGridLines(true)
 						    .ordinalColors(['#c71585'])
-						    .yAxisLabel("Quantidade de Abstenções")
+						    .yAxisLabel("Quantidade de Abstenções (%)")
 						    .xAxisLabel("Ano")
 						    .renderDataPoints(true)
 						    .clipPadding(10)
 						    .dimension(yearDim)
+						    .valueAccessor(
+						    	function(p) { 
+						    		var total = getTotalValueGroup(sumTotalByYearGroup,p.key[0]);
+    								return (p.value / total)*100;
+						    	})
 						    .group(sumAbstByYearGroup);
-
+						     
 
 						abstentionChart.xAxis().tickFormat(d3.format("d"));
 						abstentionChart.margins().left += 40;
@@ -316,6 +320,19 @@
 
             });
 
+			function getTotalValueGroup(sumTotalByYearGroup, year){
+				var total;
+				sumTotalByYearGroup.forEach(
+					function (item) {
+					    if(item.key[0]==year){
+					    	total = item.value;
+					    	return item.value;
+					    }
+					}
+				);
+				return total;
+
+			}
 
 			function createLegendMap(minCandidatos, maxCandidatos){
 				var height = 400;
