@@ -37,13 +37,7 @@
 		          </button>
 		          <a class="navbar-brand" href="#">Visualizações do Enem</a>
 		        </div>
-		        <div id="navbar" class="navbar-collapse collapse">
-		          <ul class="nav navbar-nav navbar-right">
-		            <li><a href="#">Dashboard</a></li>
-		            <li><a href="#">Settings</a></li>
-		            <li><a href="#">Profile</a></li>
-		            <li><a href="#">Help</a></li>
-		          </ul>
+		       
 		          
 		        </div>
 		      </div>
@@ -127,7 +121,7 @@
 				        d.status_redacao = d.r;
 				        d.uf = d.u;
 				        //d.tipo_escola = d.t;
-				        d.tipo_escola = d.t == 1 ? "Federal" : (d.t == 2 ? "Estadual" : (d.t == 3 ? "Municipal" : (d.t == 4 ? "Privada" : "N/A")));
+				        d.tipo_escola = d.t == 1 ? "Federal" : (d.t == 2 ? "Estadual" : (d.t == 3 ? "Municipal" : (d.t == 4 ? "Privada" : "Nenhuma")));
 				      
 				        d.m[1] = + d.m[1];
 				        d.m[2] = + d.m[2];
