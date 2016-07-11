@@ -183,7 +183,7 @@
 					Array.prototype.slice.call(countAllSchools).forEach(function(d) { countSchoolsByType[d.key] = d.value; });
 
 					var notasGroup = schoolDim.group().reduce(function (p, v) {
-						   	p[v.m1] = (p[v.m1] || 0) + (v.m[1]/countSchoolsByType[v.tipo_escola]);
+						  	p[v.m1] = (p[v.m1] || 0) + (v.m[1]/countSchoolsByType[v.tipo_escola]);
 						   	p[v.m2] = (p[v.m2] || 0) + (v.m[2]/countSchoolsByType[v.tipo_escola]);
 						   	p[v.m3] = (p[v.m3] || 0) + (v.m[3]/countSchoolsByType[v.tipo_escola]);
 						   	p[v.m4] = (p[v.m4] || 0) + (v.m[4]/countSchoolsByType[v.tipo_escola]);
@@ -258,6 +258,7 @@
 						    //.interpolate('step-before')
 						    .renderArea(true)
 						    .brushOn(false)
+						    .elasticY(true)
 						    .renderHorizontalGridLines(true)
 						    .ordinalColors(['#c71585'])
 						    .yAxisLabel("Quantidade de Abstenções (%)")
@@ -280,11 +281,9 @@
 			          	schoolChart
 				            .width(500)
 							.height(380)
-							//.x(d3.scale.ordinal())
 							.x(d3.scale.ordinal().domain(data.map(function (d) {return d.tipo_escola; })))
           					.xUnits(dc.units.ordinal)
           					.elasticY(true)
-				            //.x(d3.scale.linear().domain(d3.extent(data, function(d){ return d.tipo_escola;} )))
 				            .margins({left: 50, top: 20, right: 10, bottom: 20})
 				            .brushOn(false)
 				            // .clipPadding(10)
@@ -302,8 +301,8 @@
 							    }))
 				            .ordinalColors(['#330099', '#FFCC00', '#FF8000', '#0066B3', '#a6a6a6'])
 				            .gap(20)
-				            .clipPadding(30)
-				            .renderLabel(true);
+				            .clipPadding(30);
+				            //.renderLabel(true);
 
 				        //schoolChart.xAxis().tickFormat(d3.format("d"));
 				        schoolChart.margins().top += 40;
