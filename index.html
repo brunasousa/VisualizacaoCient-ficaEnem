@@ -70,9 +70,12 @@
 		        	  	<div class="row">
             				<div class="col-md-6">
             					<div id='brazil-chart'>
-							      	<h4>Mapa</h4>
+							      	<h4>Distribuição de Canditados por Estado</h4>
 							      	<p><font size="2" color="gray">Selecione os estados no mapa para análise</font></p>
-							     	<ol class="legend-geoChart"></ol>
+							     	<ol class="legend-geoChart">
+							     		<li>Candidatos</li>
+
+							     	</ol>
 							 
 								</div>
             				</div>
@@ -89,7 +92,7 @@
             			<div class="row">
             				<div class="col-md-6">
             					<div id='abstention-chart'>
-						      		<h4>Quantidade de Abstenções por Ano</h4>
+						      		<h4>Quantidade de Abstenções na Redação por Ano</h4>
 								</div>
             				</div>
 
@@ -330,7 +333,7 @@
 	            	.data(_.zip(mapLegendColors.domain(), mapLegendColors.range()))
 
 	          	legendItems.enter().append('li')
-	              .attr("style", function (d) { return "background-color: " + mapLegendColors(d[0]) + ";"; })
+	              .attr("style", function (d) { return "background-color: " + mapLegendColors(d[0]) + "; "+((d[0]===9)?" color: #FFF8DC ;":"");})
 	              .html(function(d) {
 	                if (d[0] === 0){
 	                  return minCandidatos;
